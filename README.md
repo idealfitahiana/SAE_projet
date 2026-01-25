@@ -39,7 +39,7 @@ L'application respecte une architecture MVC (Modèle-Vue-Contrôleur) adaptée a
 ### Démarrage rapide
 1.  Cloner le dépôt :
     ```bash
-    git clone [https://github.com/ton_pseudo_github/sae-bibliotheque.git](https://github.com/ton_pseudo_github/sae-bibliotheque.git)
+    git clone [https://github.com/idealfitahiana/SAE_projet.git](https://github.com/idealfitahiana/SAE_projet.git)
     cd sae-bibliotheque
     ```
 
@@ -108,9 +108,9 @@ L'image de l'API est construite et hébergée publiquement sur Docker Hub.
 * **Lien Docker Hub** : [plus tard]
 * **Commande pour pull l'image** :
     ```bash
-    docker pull ton_pseudo/sae-bibliotheque:v1
+    docker pull idealfitahiana/sae-bibliotheque:v1
     ```
 * **Commande pour lancer l'image seule (sans la BDD)** :
     ```bash
-    docker run -p 8000:8000 ton_pseudo/sae-bibliotheque:v1
+    docker run -p 8000:8000 idealfitahiana/sae-bibliotheque:v1
     ```
