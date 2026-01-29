@@ -37,10 +37,10 @@ L'application respecte une architecture MVC (Modèle-Vue-Contrôleur) adaptée a
 * Git.
 
 ### Démarrage rapide
-1.  Cloner le dépôt :
-    ```bash
-    git clone [https://github.com/ton_pseudo_github/sae-bibliotheque.git](https://github.com/ton_pseudo_github/sae-bibliotheque.git)
-    cd sae-bibliotheque
+1. **Cloner le dépôt** :
+   ```bash
+   git clone https://github.com/idealfitahiana/SAE_projet.git
+   cd SAE_projet
     ```
 
 2.  Lancer l'application via Docker Compose :
@@ -53,64 +53,45 @@ L'API sera accessible à l'adresse : `http://localhost:8000`
 
 ---
 
-## 4. Documentation et Exemples d'Utilisation
+## 4. Documentation de l'API (Swagger)
 
-L'API dispose d'une documentation interactive Swagger UI accessible ici :
- **http://localhost:8000/docs**
+Une documentation interactive complète (OpenAPI) est disponible à l'adresse suivante une fois le projet lancé :
+👉 **[http://localhost:8000/docs](http://localhost:8000/docs)**
 
-### Exemples de routes principales :
+### Exemples de routes disponibles :
 
-**1. Créer un Auteur (POST)**
-* Endpoint : `/auteurs/`
-* Body :
-    ```json
-    {
-      "nom": "Victor Hugo"
-    }
-    ```
+#### **Gestion des auteurs**
+- `GET /auteurs/` : Liste tous les auteurs et leurs livres.
+- `POST /auteurs/` : Créer un auteur  
+  **Exemple :** `{"nom": "Victor Hugo"}`
+- `PUT /auteurs/{id}` : Modifier le nom d'un auteur.
+- `DELETE /auteurs/{id}` : Supprimer un auteur (vérifie l'intégrité référentielle).
 
-**2. Créer un Genre (POST)**
-* Endpoint : `/genres/`
-* Body :
-    ```json
-    {
-      "nom": "Drame"
-    }
-    ```
-
-**3. Créer un Livre avec relations (POST)**
-* Endpoint : `/livres/`
-* Description : Crée un livre lié à l'auteur ID `1` et au genre ID `1`.
-* Body :
-    ```json
-    {
-      "titre": "Les Misérables",
-      "auteur_id": 1,
-      "genre_ids": [1]
-    }
-    ```
-
+#### **Gestion des livres**
+- `POST /livres/` : Créer un livre lié à un auteur et des genres  
+  **Exemple :** `{"titre": "Notre-Dame de Paris", "auteur_id": 1, "genre_ids": [1, 2]}`
+- `DELETE /livres/{id}` : Supprimer un livre.
 ---
 
 ## 5. Données de Test
 
-Un fichier SQL contenant un jeu de données minimal est fourni à la racine du projet : `data_test.sql`.
+Un fichier SQL contenant un jeu de données minimal est fourni à la racine du projet : `data_test.sql`.  
 Il contient des insertions types pour peupler la base de données avec des auteurs (ex: J.K. Rowling), des genres et des livres liés.
 
 La persistance des données est assurée par un volume Docker nommé `postgres_data`.
-
----
 
 ## 6. Image Docker Hub
 
 L'image de l'API est construite et hébergée publiquement sur Docker Hub.
 
-* **Lien Docker Hub** : [plus tard]
-* **Commande pour pull l'image** :
-    ```bash
-    docker pull ton_pseudo/sae-bibliotheque:v1
-    ```
+**Lien Docker Hub :** [https://hub.docker.com/repository/docker/idealfitahiana/sae-bibliotheque/general](https://hub.docker.com/repository/docker/idealfitahiana/sae-bibliotheque/general)
+
+### Commandes Docker
+
+**Télécharger l'image :**
+```bash
+docker pull idealfitahiana/sae-bibliotheque:v1
 * **Commande pour lancer l'image seule (sans la BDD)** :
     ```bash
-    docker run -p 8000:8000 ton_pseudo/sae-bibliotheque:v1
+    docker run -p 8000:8000 idealfitahiana/sae-bibliotheque:v1
     ```

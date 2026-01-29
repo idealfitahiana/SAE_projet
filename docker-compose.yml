@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   web:
     build: .
@@ -16,6 +14,9 @@ services:
     image: postgres:13
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      # AUTOMATISATION : On monte le script SQL dans le dossier spécial de Postgres
+      # pour qu'il soit exécuté automatiquement à la création de la base.
+      - ./data_test.sql:/docker-entrypoint-initdb.d/data_test.sql
     environment:
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=password
