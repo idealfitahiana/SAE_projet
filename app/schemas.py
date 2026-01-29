@@ -1,61 +1,64 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import List, Optional
 
-# --- Schémas pour la Biographie (Relation One-to-One) ---
+# --- SCHÉMAS POUR LES GENRES ---
+class GenreBase(BaseModel):
+    nom: str = Field(..., example="Science-Fiction", description="Nom unique du genre littéraire")
+
+class GenreCreate(GenreBase):
+    pass
+
+class Genre(GenreBase):
+    id: int
+
+    class Config:
+        from_attributes = True
+
+# --- SCHÉMAS POUR LA BIOGRAPHIE ---
 class BiographieBase(BaseModel):
-    contenu: str
+    contenu: str = Field(..., example="Né à Paris en 1802, écrivain romantique...", description="Détails de la vie de l'auteur")
 
 class BiographieCreate(BiographieBase):
+    # Lors de la création, on doit spécifier à quel auteur elle appartient
     auteur_id: int
 
 class Biographie(BiographieBase):
     id: int
+    
     class Config:
-        orm_mode = True
+        from_attributes = True
 
-# --- Schémas pour les Genres ---
-class GenreBase(BaseModel):
-    nom: str
-
-class Genre(GenreBase):
-    id: int
-    class Config:
-        orm_mode = True
-
-# --- Schémas pour les Livres ---
+# --- SCHÉMAS POUR LES LIVRES ---
 class LivreBase(BaseModel):
-    titre: str
+    titre: str = Field(..., example="Les Misérables")
 
 class LivreCreate(LivreBase):
+    # La contrainte 'nullable=False' du modèle est répercutée ici : l'ID de l'auteur est obligatoire
     auteur_id: int
+    # On permet d'associer des genres dès la création
     genre_ids: List[int] = []
-
-# Modèle pour la mise à jour (PUT)
-class LivreUpdate(BaseModel):
-    titre: Optional[str] = None
-    auteur_id: Optional[int] = None
-    genre_ids: Optional[List[int]] = None
 
 class Livre(LivreBase):
     id: int
+    auteur_id: int
     genres: List[Genre] = []
-    class Config:
-        orm_mode = True
 
-# --- Schémas pour les Auteurs ---
+    class Config:
+        from_attributes = True
+
+# --- SCHÉMAS POUR LES AUTEURS ---
 class AuthorBase(BaseModel):
-    nom: str
+    nom: str = Field(..., example="Victor Hugo")
 
 class AuthorCreate(AuthorBase):
     pass
 
-# Modèle pour la mise à jour (PUT)
-class AuthorUpdate(BaseModel):
-    nom: Optional[str] = None
-
 class Author(AuthorBase):
     id: int
-    livres: List[Livre] = []
+    # On ajoute ces champs pour que le GET /auteurs/ affiche 
+    # automatiquement les données liées (grâce aux relations SQLAlchemy)
     biographie: Optional[Biographie] = None
+    livres: List[Livre] = []
+
     class Config:
-        orm_mode = True
+        from_attributes = True

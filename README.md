@@ -89,8 +89,11 @@ L'image de l'API est construite et hébergée publiquement sur Docker Hub.
 ### Commandes Docker
 
 **Télécharger l'image :**
-```bash
-docker pull idealfitahiana/sae-bibliotheque:v1
+* **Lien Docker Hub** : `https://hub.docker.com/repository/docker/idealfitahiana/sae-bibliotheque`
+* **Commande pour pull l'image** :
+    ```bash
+    docker pull idealfitahiana/sae-bibliotheque:v1
+    ```
 * **Commande pour lancer l'image seule (sans la BDD)** :
     ```bash
     docker run -p 8000:8000 idealfitahiana/sae-bibliotheque:v1
